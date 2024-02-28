@@ -1,9 +1,8 @@
 name: Node.js Package
 # 监测图床分支，2020年10月后github新建仓库默认分支改为main，记得更改
 on:
-  push:
-    branches:
-      - master
+  - workflow_dispatch
+  - push
 
 jobs:
   publish-npm:
