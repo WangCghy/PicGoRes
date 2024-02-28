@@ -1,32 +1,16 @@
-name: Increment version and push
-
-on:
-  push:
-    branches:
-      - main
-
+name: Deploy to NPM CDN
+'on':
+  - workflow_dispatch
+  - push
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
         with:
-          python-version: 3.x
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install jsonschema
-
-      - name: Increment version
-        run: |
-          python .github/workflows/new_version.py
-
-      - name: Push changes
-        uses: ad-m/github-push-action@master
+          node-version: 16.x
+      - run: python3 new_version.py
+      - uses: JS-DevTools/npm-publish@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.NPM_TOKEN }}
