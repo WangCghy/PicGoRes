@@ -1,5 +1,6 @@
 name: Node.js Package
 # 监测图床分支，2020年10月后github新建仓库默认分支改为main，记得更改
+
 on:
   push:
     branches:
@@ -15,6 +16,10 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm version patch -m 'Auto-incremented version to %s'
+      - name: Setup Git
+        run: |
+          git config user.email "wang4694301@gmail.com"
+          git config user.name "xbc"
       - run: git push origin main --tags
       - run: npm publish
         env:
